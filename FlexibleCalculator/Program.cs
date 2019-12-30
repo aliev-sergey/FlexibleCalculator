@@ -6,23 +6,28 @@ namespace FlexibleCalculator
     {
         static void Main(string[] args)
         {
-            decimal firstOperand = 256;
-            decimal secondOperand = 4;
+            ValueReciever reciever = new ValueReciever();
+            Calculator calc = new Calculator();
 
-            Calculator calculator = new Calculator(new OperationAdd());
-            Console.WriteLine($"{firstOperand} + {secondOperand} = {calculator.executeOperation(firstOperand, secondOperand)}");
+            ArithmeticOperationCommand addition = new OperationSum(reciever, 5, 10, 15);
+            calc.Operation = addition;
+            calc.executeOperation();
+            Console.WriteLine(reciever.Value);
 
-            calculator.Operation = new OperationMul();
-            Console.WriteLine($"{firstOperand} * {secondOperand} = {calculator.executeOperation(firstOperand, secondOperand)}");
+            ArithmeticOperationCommand sub = new OperationSub(reciever, 20, 1, 15);
+            calc.Operation = sub;
+            calc.executeOperation();
+            Console.WriteLine(reciever.Value);
 
-            calculator.Operation = new OperationSub();
-            Console.WriteLine($"{firstOperand} - {secondOperand} = {calculator.executeOperation(firstOperand, secondOperand)}");
+            ArithmeticOperationCommand mul = new OperationMul(reciever, 5, 10, 15);
+            calc.Operation = mul;
+            calc.executeOperation();
+            Console.WriteLine(reciever.Value);
 
-            calculator.Operation = new OperationDiv();
-            Console.WriteLine($"{firstOperand} / {secondOperand} = {calculator.executeOperation(firstOperand, secondOperand)}");
-
-            calculator.Operation = new OperationPow();
-            Console.WriteLine($"{firstOperand} ^ {secondOperand} = {calculator.executeOperation(firstOperand, secondOperand)}");
+            ArithmeticOperationCommand abs = new OperationAbs(reciever, -10);
+            calc.Operation = abs;
+            calc.executeOperation();
+            Console.WriteLine(reciever.Value);
 
             Console.Read();
         }

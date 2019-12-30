@@ -2,59 +2,94 @@
 
 namespace FlexibleCalculator
 {
-    public class OperationAdd : ArithmeticOperation
+    public class OperationSub : ArithmeticOperationCommand
     {
-        public decimal DoOperation(decimal firstOperand, decimal secondOperand)
+        private ValueReciever _resultValue;
+        private decimal[] _nums;
+
+        public OperationSub(ValueReciever resultValue, params decimal[] nums)
         {
-            return firstOperand + secondOperand;
+
+            _resultValue = resultValue;
+            _nums = nums;
+        }
+
+        public void Calculate()
+        {
+            decimal subtrahend = _nums[0];
+            for (int i = 1; i < _nums.Length; i++)
+            {
+                subtrahend -= _nums[i];
+            }
+
+            _resultValue.Value = subtrahend;
         }
     }
 
-    public class OperationSub : ArithmeticOperation
+    public class OperationMul : ArithmeticOperationCommand
     {
-        public decimal DoOperation(decimal firstOperand, decimal secondOperand)
+        private ValueReciever _resultValue;
+        private decimal[] _factors;
+
+        public OperationMul(ValueReciever resultValue, params decimal[] factors)
         {
-            return firstOperand - secondOperand;
+            _resultValue = resultValue;
+            _factors = factors;
+        }
+
+        public void Calculate()
+        {
+            decimal composition = 1;
+
+            foreach (decimal factor in _factors)
+            {
+                composition *= factor;
+            }
+
+            _resultValue.Value = composition;
         }
     }
 
-    public class OperationMul : ArithmeticOperation
+    public class OperationSum : ArithmeticOperationCommand
     {
-        public decimal DoOperation(decimal firstOperand, decimal secondOperand)
+        private ValueReciever _resultValue;
+        private decimal[] _addendums;
+
+        public OperationSum(ValueReciever resultValue, params decimal[] addendums)
         {
-            return firstOperand * secondOperand;
+            
+            _resultValue = resultValue;
+            _addendums = addendums;
+        }
+
+        public void Calculate()
+        {
+            decimal sum = 0;
+
+            foreach (decimal addendum in _addendums)
+            {
+                sum += addendum;
+            }
+
+            _resultValue.Value = sum;
         }
     }
 
-    public class OperationDiv : ArithmeticOperation
+    public class OperationAbs : ArithmeticOperationCommand
     {
-        public decimal DoOperation(decimal firstOperand, decimal secondOperand)
-        {
-            if (secondOperand == 0)
-            {
-                throw new DivideByZeroException();
-            }
-            return firstOperand / secondOperand;
-        }
-    }
+        private ValueReciever _resultValue;
+        private decimal _num;
 
-    public class OperationPow : ArithmeticOperation
-    {
-        public decimal DoOperation(decimal firstOperand, decimal exponent)
+        public OperationAbs(ValueReciever resultValue, decimal num)
         {
-            if (exponent == 0)
-            {
-                return 1;
-            }
-            if (exponent % 2 == 1)
-            {
-                return DoOperation(firstOperand, exponent - 1) * firstOperand;
-            }
-            else
-            {
-                decimal result = DoOperation(firstOperand, exponent / 2);
-                return result * result;
-            }
+
+            _resultValue = resultValue;
+            _num = num;
+        }
+
+        public void Calculate()
+        {
+            _resultValue.Value = _num < 0 ? (_num * -1) : _num;
         }
     }
 }
