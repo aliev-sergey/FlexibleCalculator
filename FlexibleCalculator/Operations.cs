@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FlexibleCalculator
+﻿namespace FlexibleCalculator
 {
     public class OperationSub : ArithmeticOperationCommand
     {
